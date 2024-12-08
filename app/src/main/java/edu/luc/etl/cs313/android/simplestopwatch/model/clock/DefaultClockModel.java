@@ -45,4 +45,4 @@ public class DefaultClockModel implements ClockModel {
         }
         start(); // Restart the clock from the beginning
     }
-]
+}
