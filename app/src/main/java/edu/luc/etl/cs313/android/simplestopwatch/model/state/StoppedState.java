@@ -5,27 +5,23 @@ import edu.luc.etl.cs313.android.simplestopwatch.R;
 
 class StoppedState implements StopwatchState {
 
-    public StoppedState(final StopwatchSMStateView sm) {
-        this.sm = sm;
+    public StoppedState(final StopwatchStateView stateView) {
+        this.stateView = stateView;
     }
 
-    private final StopwatchSMStateView sm;
+    private final StopwatchStateView stateView;
 
     @Override
     public void onStartStop() {
-        sm.actionStart();
-        sm.toRunningState();
-    }
-
-    @Override
-    public void onLapReset() {
-        sm.actionReset();
-        sm.toStoppedState();
+        stateView.transitionToIncrementingState();  // Transition to incrementing state
+        stateView.incrementTime();                   // Increment time
+        stateView.startClock();                      // Start the clock
     }
 
     @Override
     public void onTick() {
-        throw new UnsupportedOperationException("onTick");
+        // No action needed on tick in the stopped state
+        System.out.println(111);
     }
 
     @Override
