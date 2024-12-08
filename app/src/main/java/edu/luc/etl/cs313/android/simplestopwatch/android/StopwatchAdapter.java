@@ -1,3 +1,4 @@
+
 package edu.luc.etl.cs313.android.simplestopwatch.android;
 
 import android.app.Activity;
@@ -14,6 +15,12 @@ import edu.luc.etl.cs313.android.simplestopwatch.common.StopwatchModelListener;
 import edu.luc.etl.cs313.android.simplestopwatch.model.ConcreteStopwatchModelFacade;
 import edu.luc.etl.cs313.android.simplestopwatch.model.StopwatchModelFacade;
 
+import android.content.Context;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.RingtoneManager;
+import android.net.Uri;
+import java.io.IOException;
 /**
  * A thin adapter component for the stopwatch.
  *
@@ -56,7 +63,7 @@ public class StopwatchAdapter extends Activity implements StopwatchModelListener
     }
 
     // TODO remaining lifecycle methods
-    
+
     /**
      * Updates the seconds and minutes in the UI.
      * @param time
@@ -65,6 +72,7 @@ public class StopwatchAdapter extends Activity implements StopwatchModelListener
     public void playDefaultNotification() {
         final Context context = getApplicationContext();
         final MediaPlayer mediaPlayer = new MediaPlayer();
+        final Uri defaultRingtoneUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         try {
             // Set data source
             mediaPlayer.setDataSource(context, defaultRingtoneUri);
@@ -89,15 +97,13 @@ public class StopwatchAdapter extends Activity implements StopwatchModelListener
     public void playAlarm() {
         playDefaultNotification();
     }
-    
+
     public void onTimeUpdate(final int time) {
         // UI adapter responsibility to schedule incoming events on UI thread
         runOnUiThread(() -> {
             final TextView tvS = findViewById(R.id.seconds);
-            final TextView tvM = findViewById(R.id.minutes);
             final var locale = Locale.getDefault();
             tvS.setText(String.format(locale,"%02d", time % Constants.SEC_PER_MIN));
-            tvM.setText(String.format(locale,"%02d", time / Constants.SEC_PER_MIN));
         });
     }
 
