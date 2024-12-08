@@ -47,16 +47,16 @@ public class DefaultStopwatchStateMachine implements StopwatchStateMachine {
     @Override public void startAlarm() { listener.playAlarm(); }
 
     // known states
-    private final StopwatchState STOPPED     = new StoppedState(this);
-    private final StopwatchState RUNNING     = new RunningState(this);
-    private final StopwatchState ALARMED       = new AlarmState(this);
-    private final StopwatchState LAP_STOPPED = new LapStoppedState(this); //need to change to new state where it goes down in time
+    private final StopwatchState STOPPED      = new StoppedState(this);
+    private final StopwatchState RUNNING      = new RunningState(this);
+    private final StopwatchState ALARMED      = new AlarmState(this);
+    private final StopwatchState INCREMENTING = new IncrementingState(this); //need to change to new state where it goes down in time
 
     // transitions
     @Override public void toRunningState()    { setState(RUNNING); }
     @Override public void toStoppedState()    { setState(STOPPED); }
     @Override public void toAlarmState() { setState(ALARMED); }
-    @Override public void toLapStoppedState() { setState(LAP_STOPPED); } //same here
+     @Override public void toIncrementingState() {setState(INCREMENTING); } //same here
 
     // actions
     @Override public void actionInit()       { toStoppedState(); actionReset(); }
