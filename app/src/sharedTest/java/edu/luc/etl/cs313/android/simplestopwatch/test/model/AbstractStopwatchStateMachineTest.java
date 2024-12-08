@@ -72,7 +72,7 @@ public abstract class AbstractStopwatchStateMachineTest {
      * expect time 5.
      */
     @Test
-    public void testScenarioRun() {
+    public void testScenarioIncrementing() {
         assertTimeEquals(0);
         assertFalse(dependency.isStarted());
         // directly invoke the button press event handler methods
@@ -90,32 +90,17 @@ public abstract class AbstractStopwatchStateMachineTest {
      * @throws Throwable
      */
     @Test
-    public void testScenarioRunLapReset() {
+    public void testScenarioRunning() throws InterruptedException {
         assertTimeEquals(0);
         assertFalse(dependency.isStarted());
         // directly invoke the button press event handler methods
         model.onStartStop();
+        assertEquals(R.string.Incrementing, dependency.getState());
+        assertTrue(dependency.isStarted());
+        onTickRepeat(10);
+        assertTimeEquals(11);
+        model.toRunningState();
         assertEquals(R.string.RUNNING, dependency.getState());
-        assertTrue(dependency.isStarted());
-        onTickRepeat(5);
-        assertTimeEquals(5);
-        model.onLapReset();
-        assertEquals(R.string.LAP_RUNNING, dependency.getState());
-        assertTrue(dependency.isStarted());
-        onTickRepeat(4);
-        assertTimeEquals(5);
-        model.onStartStop();
-        assertEquals(R.string.LAP_STOPPED, dependency.getState());
-        assertFalse(dependency.isStarted());
-        assertTimeEquals(5);
-        model.onLapReset();
-        assertEquals(R.string.STOPPED, dependency.getState());
-        assertFalse(dependency.isStarted());
-        assertTimeEquals(9);
-        model.onLapReset();
-        assertEquals(R.string.STOPPED, dependency.getState());
-        assertFalse(dependency.isStarted());
-        assertTimeEquals(0);
     }
 
     /**
@@ -125,7 +110,7 @@ public abstract class AbstractStopwatchStateMachineTest {
      */
     protected void onTickRepeat(final int n) {
         for (var i = 0; i < n; i++)
-            model.onTick();
+            model.onStartStop();
     }
 
     /**
@@ -175,6 +160,11 @@ class UnifiedMockDependency implements TimeModel, ClockModel, StopwatchModelList
     }
 
     @Override
+    public void playAlarm() {
+
+    }
+    
+    @Override
     public void setTickListener(TickListener listener) {
         throw new UnsupportedOperationException();
     }
@@ -200,17 +190,17 @@ class UnifiedMockDependency implements TimeModel, ClockModel, StopwatchModelList
     }
 
     @Override
+    public void decRuntime() {
+        runningTime--;
+    }
+
+    @Override
     public int getRuntime() {
         return runningTime;
     }
 
     @Override
-    public void setLaptime() {
-        lapTime = runningTime;
-    }
+    public void reset() {
 
-    @Override
-    public int getLaptime() {
-        return lapTime;
     }
 }
