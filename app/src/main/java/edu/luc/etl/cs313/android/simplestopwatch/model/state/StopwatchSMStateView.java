@@ -6,26 +6,25 @@ package edu.luc.etl.cs313.android.simplestopwatch.model.state;
  *
  * @author laufer
  */
-interface StopwatchSMStateView {
+interface StopwatchStateView {
 
     // transitions
-    void toRunningState();
-    void toStoppedState();
-    void toLapRunningState();
-    void toLapStoppedState();
+    void transitionToRunningState();
+    void transitionToStoppedState();
+    void transitionToLapRunningState();
+    void transitionToLapStoppedState();
 
     // actions
-    void actionInit();
-    void actionReset();
-    void actionStart();
-    void actionStop();
-    void actionReset();
-    void actionInc();
-    void actionDec();
-    void actionUpdateView();
+    void initialize();
+    void resetTime();
+    void startClock();
+    void stopClock();
+    void incrementTime();
+    void decrementTime();
+    void updateView();
 
     // state-dependent UI updates
-    void updateUIRuntime();
-    void startAlarm();
+    void refreshUIForRunningState();
+    void activateAlarm();
     int getTime();
 }
