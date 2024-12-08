@@ -56,11 +56,40 @@ public class StopwatchAdapter extends Activity implements StopwatchModelListener
     }
 
     // TODO remaining lifecycle methods
-
+    
     /**
      * Updates the seconds and minutes in the UI.
      * @param time
      */
+
+    public void playDefaultNotification() {
+        final Context context = getApplicationContext();
+        final MediaPlayer mediaPlayer = new MediaPlayer();
+        try {
+            // Set data source
+            mediaPlayer.setDataSource(context, defaultRingtoneUri);
+            // Set audio stream type
+            mediaPlayer.setAudioStreamType(AudioManager.STREAM_NOTIFICATION);
+            // Prepare the MediaPlayer
+            mediaPlayer.prepare();
+            // Set completion listener to release MediaPlayer after playback
+            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    mp.release();
+                }
+            });
+            // Start the MediaPlayer
+            mediaPlayer.start();
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    public void playAlarm() {
+        playDefaultNotification();
+    }
+    
     public void onTimeUpdate(final int time) {
         // UI adapter responsibility to schedule incoming events on UI thread
         runOnUiThread(() -> {
