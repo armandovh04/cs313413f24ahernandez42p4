@@ -19,11 +19,13 @@ interface StopwatchSMStateView {
     void actionReset();
     void actionStart();
     void actionStop();
-    void actionLap();
+    void actionReset();
     void actionInc();
+    void actionDec();
     void actionUpdateView();
 
     // state-dependent UI updates
     void updateUIRuntime();
-    void updateUILaptime();
+    void startAlarm();
+    int getTime);
 }
