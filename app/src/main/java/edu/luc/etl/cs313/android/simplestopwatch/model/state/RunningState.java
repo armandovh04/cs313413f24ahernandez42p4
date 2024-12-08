@@ -13,19 +13,17 @@ class RunningState implements StopwatchState {
     @Override
     public void onStartStop() {
         sm.actionStop();
+        sm.actionReset();
         sm.toStoppedState();
     }
 
     @Override
-    public void onLapReset() {
-        sm.actionLap();
-        sm.toLapRunningState();
-    }
-
-    @Override
     public void onTick() {
-        sm.actionInc();
-        sm.toRunningState();
+        sm.actionDec();
+        if(sm.getTime() == 0) {
+            sm.startAlarm();
+            sm.toAlarmedState();
+        }
     }
 
     @Override
