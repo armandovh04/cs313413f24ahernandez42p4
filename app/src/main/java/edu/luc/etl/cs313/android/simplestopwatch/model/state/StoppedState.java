@@ -1,5 +1,6 @@
 package edu.luc.etl.cs313.android.simplestopwatch.model.state;
 
+import android.util.Log;
 import edu.luc.etl.cs313.android.simplestopwatch.R;
 
 class StoppedState implements StopwatchState {
