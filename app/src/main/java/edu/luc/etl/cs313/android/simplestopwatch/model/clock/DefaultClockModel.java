@@ -38,4 +38,11 @@ public class DefaultClockModel implements ClockModel {
     public void stop() {
         timer.cancel();
     }
-}
+
+    public void reset() {
+        if (timer != null) {
+            timer.cancel(); // Stop the current timer
+        }
+        start(); // Restart the clock from the beginning
+    }
+]
